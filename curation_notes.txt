@@ -1,0 +1,12 @@
+one is subjective
+
+no discrete annotation
+
+depends on curator signature
+
+80 different curators for OncoKB
+
+run spell-check on the entire database (how would you do this efficientily?)
+
+link to Emory pathology database (via TCGA)
+

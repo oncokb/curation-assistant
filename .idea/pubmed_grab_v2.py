@@ -30,7 +30,7 @@ HEADER = '''
     <head>
 
     </head>
-    <body>
+    <body style="color:blue;">
 '''
 FOOTER = '''
     </body>
@@ -58,31 +58,45 @@ def search_by_string(query, max_res):
 
     final_list = list()
 
+    query_in_title = list()
+
+    query_not_in_title = list()
+
     # https://www.ncbi.nlm.nih.gov/pubmed/?term=PMID
 
     for record in records:
-        final_list.append([record.get("PMID", "?"), record.get("TI", "?"), "https://www.ncbi.nlm.nih.gov/pubmed/?term=" +
+        if query in record.get("TI", "?"):
+            query_in_title.append([record.get("PMID", "?"), record.get("TI", "?"), "https://www.ncbi.nlm.nih.gov/pubmed/?term=" +
                         record.get("PMID", "?")])
+        else:
+            query_not_in_title.append([record.get("PMID", "?"), record.get("TI", "?"), "https://www.ncbi.nlm.nih.gov/pubmed/?term=" +
+                        record.get("PMID", "?")])
+
+    print(DataFrame(query_in_title))
+    print(DataFrame(query_not_in_title))
+
 
        # print("PMID:", record.get("PMID", "?"))
        # print("Abstract:", record.get("AB", "?"))
        # print("")  # order the abstracts by number of occurrences (add more metrics later)
 
-    print(DataFrame(final_list))  # this is really nice for data viz on the matrix
-
-
     pandas.set_option('display.max_colwidth', -1)
 
-    df = pandas.DataFrame(final_list)
-    column_names = ["PMID", "Title", "Link to Abstract"]
-    df.columns = column_names
+    df_in_title = pandas.DataFrame(query_in_title)
+    df_not_title = pandas.DataFrame(query_not_in_title)
 
-    df = df.replace({query: '<b>' + query + '</b'}, regex=True)
+    column_names = ["PMID", "Title", "Link to Abstract"]
+    df_in_title.columns = column_names
+    df_not_title.columns = column_names
+
+    df_in_title = df_in_title.replace({query: '<b>' + query + '</b'}, regex=True)
+    df_not_title = df_not_title.replace({query: '<b>' + query + '</b'}, regex=True)
 
 
     with open('test.html', 'w') as f:
         f.write(HEADER)
-        f.write(df.to_html(classes='df'))
+        f.write(df_in_title.to_html(classes='df'))
+        f.write(df_not_title.to_html(classes='df'))
         f.write(FOOTER)
 
     filename = 'test.html'

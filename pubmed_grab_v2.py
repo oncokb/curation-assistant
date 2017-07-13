@@ -1,175 +1,132 @@
-import re
-import sys
-import traceback
-from bs4 import BeautifulSoup
-import requests
+from __future__ import print_function
+from Bio import Entrez
+from Bio import Medline
+from Bio.Entrez import efetch, read
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+import base64
+
+from pandas import *  # pretty printing 2d lists (a.k.a the id/abstract pairs)
+
+# Task List for 7/13/2017
+#   add support for date-wise data grabs (from the previous week)
+#   add title column in email w/ instances of query highlighted
+#   add column w/ link to abstract
+#   separate results into two tables - one w/ query present in title, one w/out
+
+fromaddr = "trivneel211@gmail.com"
+toaddr = "trivneel211@gmail.com"
+
+msg = MIMEMultipart()
+msg['From'] = fromaddr
+msg['To'] = toaddr
+
+Entrez.email = 'trivneel211@gmail.com'  # let NCBI know who you are
+
+HEADER = '''
+<html>
+    <head>
+
+    </head>
+    <body style="color:blue;">
+'''
+FOOTER = '''
+    </body>
+</html>
+'''
+
+def make_2d_list(row, col):
+    a = []
+    for row in xrange(row): a += [[0]*col]
+    return a
 
 
-class PubMedObject(object):
-    soup = None
-    url = None
+def search_by_string(query, max_res):
+    handle = Entrez.esearch(db="pubmed", term=query, retmax = max_res)
+    record = Entrez.read(handle)
+    handle.close()
+    idlist = record["IdList"]
 
-    # pmid is a PubMed ID
-    # url is the url of the PubMed web page
-    # search_term is the string used in the search box on the PubMed website
-    def __init__(self, pmid=None, url='', search_term=''):
-        if pmid:
-            pmid = pmid.strip()
-            url = "http://www.ncbi.nlm.nih.gov/pubmed/%s" % pmid
-        if search_term:
-            url = "http://www.ncbi.nlm.nih.gov/pubmed/?term=%s" % search_term
-        page = requests.get(url).text
-        self.soup = BeautifulSoup(page, "html.parser")
+    handle = Entrez.efetch(db="pubmed", id=idlist, rettype="medline",retmode="text")
+    records = Medline.parse(handle)
 
-        # set the url to be the fixed one with the PubMedID instead of the search_term
-        if search_term:
-            try:
-                url = "http://www.ncbi.nlm.nih.gov/pubmed/%s" % self.soup.find("dl",class_="rprtid").find("dd").text
-            except AttributeError as e:  # NoneType has no find method
-                print("Error on search_term=%s" % search_term)
-        self.url = url
+    records = list(records)  # makes it much easier, trust me
 
-    def get_title(self):
-        return self.soup.find(class_="abstract").find("h1").text
+    msg['Subject'] = query + "Query Results"  # add today's date to the subject later
 
-    #auths is the string that has the list of authors to return
-    def get_authors(self):
-        result = []
-        author_list = [a.text for a in self.soup.find(class_="auths").findAll("a")]
-        for author in author_list:
-            lname, remainder = author.rsplit(' ', 1)
-            #add periods after each letter in the first name
-            fname = ".".join(remainder) + "."
-            result.append(lname + ', ' + fname)
+    final_list = list()
 
-        return ', '.join(result)
+    query_in_title = list()
 
-    def get_citation(self):
-        return self.soup.find(class_="cit").text
+    query_not_in_title = list()
 
-    def get_external_url(self):
-        url = None
-        doi_string = self.soup.find(text=re.compile("doi:"))
-        if doi_string:
-            doi = doi_string.split("doi:")[-1].strip().split(" ")[0][:-1]
-            if doi:
-                url = "http://dx.doi.org/%s" % doi
+    # https://www.ncbi.nlm.nih.gov/pubmed/?term=PMID
+
+    for record in records:
+        if query in record.get("TI", "?"):
+            query_in_title.append([record.get("PMID", "?"), record.get("TI", "?"), "https://www.ncbi.nlm.nih.gov/pubmed/?term=" +
+                        record.get("PMID", "?")])
         else:
-            doi_string = self.soup.find(class_="portlet")
-            if doi_string:
-                doi_string = doi_string.find("a")['href']
-                if doi_string:
-                    return doi_string
+            query_not_in_title.append([record.get("PMID", "?"), record.get("TI", "?"), "https://www.ncbi.nlm.nih.gov/pubmed/?term=" +
+                        record.get("PMID", "?")])
 
-        return url or self.url
+    print(DataFrame(query_in_title))
+    print(DataFrame(query_not_in_title))
 
-    def render(self):
-        template_text = ''
-        with open('template.html','r') as template_file:
-            template_text = template_file.read()
 
-        try:
-            template_text = template_text.replace("{{ external_url }}", self.get_external_url())
-            template_text = template_text.replace("{{ citation }}", self.get_citation())
-            template_text = template_text.replace("{{ title }}", self.get_title())
-            template_text = template_text.replace("{{ authors }}", self.get_authors())
-            template_text = template_text.replace("{{ error }}", '')
-        except AttributeError as e:
-            template_text = template_text.replace("{{ external_url }}", '')
-            template_text = template_text.replace("{{ citation }}", '')
-            template_text = template_text.replace("{{ title }}", '')
-            template_text = template_text.replace("{{ authors }}", '')
-            template_text = template_text.replace("{{ error }}", '<!-- Error -->')
+       # print("PMID:", record.get("PMID", "?"))
+       # print("Abstract:", record.get("AB", "?"))
+       # print("")  # order the abstracts by number of occurrences (add more metrics later)
 
-        return template_text.encode('utf8')
+    pandas.set_option('display.max_colwidth', -1)
 
-def start_table(f):
-    f.write('\t\t\t\t\t\t\t\t\t<div class="resourcesTable">\n');
-    f.write('\t\t\t\t\t\t\t\t\t\t<table border="0" cellspacing="0" cellpadding="0">\n');
+    df_in_title = pandas.DataFrame(query_in_title)
+    df_not_title = pandas.DataFrame(query_not_in_title)
 
-def end_table(f):
-    f.write('\t\t\t\t\t\t\t\t\t\t</table>\n');
-    f.write('\t\t\t\t\t\t\t\t\t</div>\n');
+    column_names = ["PMID", "Title", "Link to Abstract"]
+    df_in_title.columns = column_names
+    df_not_title.columns = column_names
 
-def start_accordion(f):
-    f.write('\t\t\t\t\t\t\t\t\t<div class="accordion">\n');
+    df_in_title = df_in_title.replace({query: '<b>' + query + '</b'}, regex=True)
+    df_not_title = df_not_title.replace({query: '<b>' + query + '</b'}, regex=True)
 
-def end_accordion(f):
-    f.write('\t\t\t\t\t\t\t\t\t</div>\n');
 
-def main(args):
+    with open('test.html', 'w') as f:
+        f.write(HEADER)
+        f.write(df_in_title.to_html(classes='df'))
+        f.write(df_not_title.to_html(classes='df'))
+        f.write(FOOTER)
+
+    filename = 'test.html'
+    f = file(filename)
+    attachment = MIMEText(f.read(), 'html')
+    msg.attach(attachment)
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)  # I'm pretty sure 587 is the port?
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login("trivneel211", "inteli511")  # i think this is pointless tbh but whatever
+
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
+
+def fetch_abstract(pmid):  # not really being used at all, just a ref. function
+    handle = efetch(db='pubmed', id=pmid, retmode='xml')
+    xml_data = Entrez.read(handle)
+    print(xml_data)
     try:
-        # program's main code here
-        print("Parsing pmids.txt...")
-        with open('result.html', 'w') as sum_file:
-            sum_file.write('<!--\n')
-        with open('pmids.txt','r') as pmid_file:
-        with open('result.html','a') as sum_file:
-        for pmid in pmid_file:
-            sum_file.write(pmid)
-        sum_file.write('\n-->\n')
-        with open('pmids.txt','r') as pmid_file:
-            h3 = False
-            h4 = False
-            table_mode = False
-            accordion_mode = False
-            with open('result.html', 'a') as sum_file:
-                for pmid in pmid_file:
-                    if pmid[:4] == "####":
-                        if h3 and not accordion_mode:
-                            start_accordion(sum_file)
-                            accordion_mode = True
-                        sum_file.write('\t\t\t\t\t\t\t\t\t<h4><a href="#">%s</a></h4>\n' % pmid[4:].strip())
-                        h4 = True
-                    elif pmid[:3] == "###":
-                        if h4:
-                            if table_mode:
-                                end_table(sum_file)
-                                table_mode = False
-                            end_accordion(sum_file)
-                            h4 = False
-                            accordion_mode = False
-                        elif h3:
-                            end_table(sum_file)
-                            table_mode = False
-                        sum_file.write('\t\t\t\t\t\t\t\t<h3><a href="#">%s</a></h3>\n' % pmid[3:].strip())
-                        h3 = True
-                    elif pmid.strip():
-                        if (h3 or h4) and not table_mode:
-                            start_table(sum_file)
-                            table_mode = True
-                        if pmid[:4] == "http":
-                            if pmid[:18] == "http://dx.doi.org/":
-                                sum_file.write(PubMedObject(search_term=pmid[18:]).render())
-                            else:
-                                print("url=%s" % pmid)
-                                p = PubMedObject(url=pmid).render()
-                                sum_file.write(p)
-                                print(p)
-                        elif pmid.isdigit():
-                            sum_file.write(PubMedObject(pmid).render())
-                        else:
-                            sum_file.write(PubMedObject(search_term=pmid).render())
-                if h3:
-                    if h4:
-                        end_table(sum_file)
-                        end_accordion(sum_file)
-                    else:
-                        end_table(sum_file)
-            pmid_file.close()
-        print("Done!")
+        article = xml_data['MedlineCitation']['Article']
+        abstract = article['Abstract']
+        return abstract
+    except IndexError:
+        return None
 
-    except BaseException as e:
-        print traceback.format_exc()
-        print "Error: %s %s" % (sys.exc_info()[0], e.args)
-        return 1
-    except:
-        # error handling code here
-        print "Error: %s" % sys.exc_info()[0]
-        return 1  # exit on error
-    else:
-        raw_input("Press enter to exit.")
-        return 0  # exit errorlessly
+search_by_string("BRAF", 500)
 
-if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+
+
+
+

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5cfc23b-78f7-4cfc-8f6c-0e87fd2b9837" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/get_hallmark_abstracts.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client_grab.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,19 +52,31 @@
       <file leaf-file-name="nlp_pre_processing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nlp_pre_processing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
+            <state relative-caret-position="1152">
               <caret line="72" column="22" lean-forward="false" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="get_hallmark_abstracts.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="get_hallmark_abstracts.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/get_hallmark_abstracts.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="64">
               <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="client_grab.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client_grab.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="27" column="25" lean-forward="true" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -104,6 +115,7 @@
         <option value="$PROJECT_DIR$/mutation_sort.py" />
         <option value="$PROJECT_DIR$/nlp_pre_processing.py" />
         <option value="$PROJECT_DIR$/get_hallmark_abstracts.py" />
+        <option value="$PROJECT_DIR$/client_grab.py" />
       </list>
     </option>
   </component>
@@ -114,10 +126,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1397" />
-    <option name="y" value="345" />
+    <option name="x" value="1280" />
     <option name="width" value="1920" />
-    <option name="height" value="1057" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -155,6 +166,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="FullScreen" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -360,10 +372,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1397" y="345" width="1920" height="1057" extended-state="0" />
+    <frame x="1280" y="0" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33333334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3370607" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -416,6 +428,58 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/email_send.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="5" column="34" lean-forward="false" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pubmed_grab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mutation_sort.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nlp_pre_processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="72" column="22" lean-forward="false" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pubmed_grab_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/get_hallmark_abstracts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/email_send.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32">
@@ -545,7 +609,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nlp_pre_processing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
+        <state relative-caret-position="1152">
           <caret line="72" column="22" lean-forward="false" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
           <folding />
         </state>
@@ -556,6 +620,16 @@
         <state relative-caret-position="64">
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client_grab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="27" column="25" lean-forward="true" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

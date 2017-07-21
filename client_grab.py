@@ -40,14 +40,25 @@ for record in records:
         if pubtype in record.get("PT", "?"):
             pmid = record.get("PMID", "?")
             url_Submit = "https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/RESTful/tmTool.cgi/" + bioconcept + "/" + pmid + "/" + format + "/"
-            urllib_result = urllib2.urlopen(url_Submit)#this returns a string
-            raw_mesh = re.findall(pattern, urllib_result)
+            urllib_result = urllib2.urlopen(url_Submit)#this returns an instance; use read method to get string
+            raw_mesh = re.findall(pattern, urllib_result.read())
             cooked_mesh = [mention.replace("Disease\t", "") for mention in raw_mesh] #this is called a list comprehension
+            cooked_mesh = list(set(cooked_mesh))#only keep unique disease ids
+            #print(cooked_mesh)
+            for mention in cooked_mesh:
+                oncotree_url = "http://oncotree.mskcc.org/oncotree-mappings/crosswalk?vocabularyId=MSH&conceptId=" + mention
+                oncotree_response = urllib2.urlopen(oncotree_url)
+                data = json.loads(oncotree_response.read())
+                if not data['oncotreeCode']:
+                    continue
+                else:
+                    res = urllib2.urlopen(url_Submit)
+                    print(res.read())
+                #if data['oncotreeCode']:#no need to delete from the data stream right now
+                   # print(urllib_result.read())
 
-            print(urllib_result.read())
 
 oncotree_ids = list()
-
 mesh_id = "D013584"
 
 oncotree_url = "http://oncotree.mskcc.org/oncotree-mappings/crosswalk?vocabularyId=MSH&conceptId=" + mesh_id

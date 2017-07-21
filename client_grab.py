@@ -41,7 +41,8 @@ for record in records:
             pmid = record.get("PMID", "?")
             url_Submit = "https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/RESTful/tmTool.cgi/" + bioconcept + "/" + pmid + "/" + format + "/"
             urllib_result = urllib2.urlopen(url_Submit)#this returns an instance; use read method to get string
-            raw_mesh = re.findall(pattern, urllib_result.read())
+            res = urllib_result.read()
+            raw_mesh = re.findall(pattern, res)
             cooked_mesh = [mention.replace("Disease\t", "") for mention in raw_mesh] #this is called a list comprehension
             cooked_mesh = list(set(cooked_mesh))#only keep unique disease ids
             #print(cooked_mesh)
@@ -52,10 +53,7 @@ for record in records:
                 if not data['oncotreeCode']:
                     continue
                 else:
-                    res = urllib2.urlopen(url_Submit)
-                    print(res.read())
-                #if data['oncotreeCode']:#no need to delete from the data stream right now
-                   # print(urllib_result.read())
+                    print(res)
 
 
 oncotree_ids = list()

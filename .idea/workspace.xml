@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5cfc23b-78f7-4cfc-8f6c-0e87fd2b9837" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client_grab.py" afterPath="$PROJECT_DIR$/client_grab.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hall_pubtator.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pre_process.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -69,11 +71,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client_grab.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="client_grab.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client_grab.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="47" column="31" lean-forward="true" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
+            <state relative-caret-position="229">
+              <caret line="51" column="59" lean-forward="false" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pre_process.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pre_process.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hall_pubtator.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hall_pubtator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -116,6 +140,8 @@
         <option value="$PROJECT_DIR$/nlp_pre_processing.py" />
         <option value="$PROJECT_DIR$/get_hallmark_abstracts.py" />
         <option value="$PROJECT_DIR$/client_grab.py" />
+        <option value="$PROJECT_DIR$/pre_process.py" />
+        <option value="$PROJECT_DIR$/hall_pubtator.py" />
       </list>
     </option>
   </component>
@@ -625,8 +651,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client_grab.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="47" column="31" lean-forward="true" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
+        <state relative-caret-position="229">
+          <caret line="51" column="59" lean-forward="false" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pre_process.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hall_pubtator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>

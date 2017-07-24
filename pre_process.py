@@ -8,3 +8,17 @@ sample_abstract = "OBJECTIVES: To evaluate the association between PSA nadir lev
 
 #pre-processing regimen: tokenization, sentence-splitting, pos-tagging, lemmatization,
 
+def getWordFrequency(self,lines, words):
+    for line in lines:
+        line = line.strip()
+        if line == "": break
+        count = 1
+        split = line.split("\t")
+        if (len(split) == 3):
+            lemma = splicountWordt[2].strip().lower()
+        else:
+          print line
+        if (words.has_key(lemma)):
+            count = words[lemma] + 1
+        words[lemma] = count
+    return words

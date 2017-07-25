@@ -1,3 +1,5 @@
+#These utilities are from Baker et. al (2015)
+
 import os
 import codecs
 

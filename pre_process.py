@@ -22,3 +22,6 @@ def getWordFrequency(self,lines, words):
             count = words[lemma] + 1
         words[lemma] = count
     return words
+
+
+

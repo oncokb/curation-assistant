@@ -34,6 +34,8 @@ records = list(records)
 
 pattern = re.compile(r"Disease\tD\w\w\w\w\w\w")
 
+final_ids = list()
+
 #record.get("PT", "?") -> how to get the publication type as a string
 for record in records:
     for pubtype in accep_pub_types: #simple filter, but can be taken out
@@ -42,7 +44,7 @@ for record in records:
             url_Submit = "https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/RESTful/tmTool.cgi/" + bioconcept + "/" + pmid + "/" + format + "/"
             urllib_result = urllib2.urlopen(url_Submit)#this returns an instance; use read method to get string
             res = urllib_result.read()
-            raw_mesh = re.findall(pattern, res)
+            raw_mesh = re.findall(pattern, res)#regex (see pattern decl. above)
             cooked_mesh = [mention.replace("Disease\t", "") for mention in raw_mesh] #this is called a list comprehension
             cooked_mesh = list(set(cooked_mesh))#only keep unique disease ids
             #print(cooked_mesh)
@@ -53,19 +55,12 @@ for record in records:
                 if not data['oncotreeCode']:
                     continue
                 else:
+
+                    print(res)#save all relevants pmids \n-separated in a text file
                     print(res)
 
 
-oncotree_ids = list()
-mesh_id = "D013584"
+final_df.to_csv('training_set.csv', sep=',', encoding='utf-8')
 
-oncotree_url = "http://oncotree.mskcc.org/oncotree-mappings/crosswalk?vocabularyId=MSH&conceptId=" + mesh_id
-oncotree_response = urllib2.urlopen(oncotree_url)
-data = json.loads(oncotree_response.read())
-oncotree_ids.append(data['oncotreeCode'])
-
-
-#...after for loop...
-final_ids = list(chain.from_iterable(oncotree_ids))#don't need to do this until empty-list check is done
 
 #if list() = False => there is nothing inside the list

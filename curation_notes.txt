@@ -10,3 +10,11 @@ run spell-check on the entire database (how would you do this efficientily?)
 
 link to Emory pathology database (via TCGA)
 
+install command line tools
+figure out how to integrate java programs with python scripts
+install OpenNLP python wrapper
+test lexical variant generator (LVG)
+implement term identification algorithm
+Test pubtator export utilities (RESTful API w/ python)
+
+finish hallmark classification over the weekend

@@ -1,0 +1,7 @@
+oncocurate.py
+curation_assistant.egg-info/PKG-INFO
+curation_assistant.egg-info/SOURCES.txt
+curation_assistant.egg-info/dependency_links.txt
+curation_assistant.egg-info/entry_points.txt
+curation_assistant.egg-info/requires.txt
+curation_assistant.egg-info/top_level.txt
